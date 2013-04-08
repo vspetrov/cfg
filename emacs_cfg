@@ -1,1 +1,3 @@
 (put 'upcase-region 'disabled nil)
+(require 'ido)
+(ido-mode t)
