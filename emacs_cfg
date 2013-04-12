@@ -9,3 +9,6 @@
 (setq-default normal-erase-is-backspace-mode 1)
 (global-set-key [(control h)] 'delete-backward-char)
 (global-set-key [(meta h)] 'backward-kill-word)
+
+(require 'magit)
+(defalias 'mg 'magit-status)
