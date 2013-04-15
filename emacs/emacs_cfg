@@ -1,4 +1,7 @@
 (put 'upcase-region 'disabled nil)
+
+(setq cfg_path "~/cfg")
+
 (require 'ido)
 (ido-mode t)
 (setq c-basic-offset 4)
@@ -10,7 +13,14 @@
 (global-set-key [(control h)] 'delete-backward-char)
 (global-set-key [(meta h)] 'backward-kill-word)
 
-(add-to-list 'load-path "~/cfg/emacs/install/magit-1.2.0")
+(setq magit_dir (concat
+                          (file-name-as-directory cfg_path)
+                          (file-name-as-directory "emacs")
+                          (file-name-as-directory "install")
+                          "magit-1.2.0")
+)
+(add-to-list 'load-path magit_dir)
+
 (require 'magit)
 (defalias 'mg 'magit-status)
 
