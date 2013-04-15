@@ -10,5 +10,15 @@
 (global-set-key [(control h)] 'delete-backward-char)
 (global-set-key [(meta h)] 'backward-kill-word)
 
+(add-to-list 'load-path "~/cfg/emacs/install/magit-1.2.0")
 (require 'magit)
 (defalias 'mg 'magit-status)
+
+(defun create-tags (dir-name)
+    "Create tags file."
+    (interactive "DDirectory: ")
+    (shell-command
+     (format "ctags -f %s/TAGS -e -R %s" dir-name (directory-file-name dir-name)))
+  )
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
