@@ -8,11 +8,17 @@
 (setq c-default-style '((java-mode . "java")
                         (awk-mode . "awk")
                         (other . "k&r")))
+(add-hook 'c-mode-hook (lambda () (setq comment-start "//"
+                                        comment-end   "")))
+
 (setq-default indent-tabs-mode nil)
 (setq-default normal-erase-is-backspace-mode 1)
 (global-set-key [(control h)] 'delete-backward-char)
 (global-set-key [(meta h)] 'backward-kill-word)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Setup Magit - Git front end for emacs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq magit_dir (concat
                           (file-name-as-directory cfg_path)
                           (file-name-as-directory "emacs")
@@ -20,9 +26,11 @@
                           "magit-1.2.0")
 )
 (add-to-list 'load-path magit_dir)
-
 (require 'magit)
 (defalias 'mg 'magit-status)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 
 (defun create-tags (dir-name)
     "Create tags file."
@@ -32,3 +40,47 @@
   )
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Setup sr-speedbar
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq sr-speedbar-dir (concat
+                                (file-name-as-directory cfg_path)
+                                (file-name-as-directory "emacs")
+                                (file-name-as-directory "install")
+                                "sr_speedbar")
+
+)
+(add-to-list 'load-path sr-speedbar-dir)
+(require 'sr-speedbar)
+(global-set-key (kbd "M-s M-s") 'sr-speedbar-toggle)
+
+(show-paren-mode 1)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Setup Color-themes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq color_theme_dir (concat
+                          (file-name-as-directory cfg_path)
+                          (file-name-as-directory "emacs")
+                          (file-name-as-directory "install")
+                          "color-theme-6.6.0")
+)
+(add-to-list 'load-path color_theme_dir)
+(require 'color-theme)
+
+(setq solarize_theme_dir (concat
+                          (file-name-as-directory cfg_path)
+                          (file-name-as-directory "emacs")
+                          (file-name-as-directory "install")
+                          "emacs-color-theme-solarized-master")
+)
+
+(add-to-list 'load-path solarize_theme_dir)
+(require 'color-theme-solarized)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-solarized-dark)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
