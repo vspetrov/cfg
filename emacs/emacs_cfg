@@ -83,4 +83,18 @@
      (color-theme-solarized-dark)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq highlight_symbol_dir (concat
+                           (file-name-as-directory cfg_path)
+                           (file-name-as-directory "emacs")
+                           (file-name-as-directory "install")
+                           "highlight_symbol")
+)
 
+(add-to-list 'load-path highlight_symbol_dir)
+
+(require 'highlight-symbol)
+
+(global-set-key (kbd "C-x M-h") 'highlight-symbol-at-point)
+(global-set-key (kbd "C-x M-r") 'highlight-symbol-remove-all)
+(global-set-key [f3] 'highlight-symbol-next)
+(global-set-key [f4] 'highlight-symbol-prev)
