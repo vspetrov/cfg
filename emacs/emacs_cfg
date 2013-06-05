@@ -98,3 +98,26 @@
 (global-set-key (kbd "C-x M-r") 'highlight-symbol-remove-all)
 (global-set-key [f3] 'highlight-symbol-next)
 (global-set-key [f4] 'highlight-symbol-prev)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq autocomplete_dir  (concat
+                               (file-name-as-directory cfg_path)
+                               (file-name-as-directory "emacs")
+                               (file-name-as-directory "install")
+                               "auto-complete-1.3.1")
+)
+
+(setq autocomplete_dict (concat
+                               (file-name-as-directory autocomplete_dir)
+                               "dict")
+)
+
+(add-to-list 'load-path autocomplete_dir)
+(require 'auto-complete-config)
+(ac-config-default)
+(add-to-list 'ac-dictionary-directories autocomplete_dict)
+
+
+
+
+(require 'highlight-symbol)
