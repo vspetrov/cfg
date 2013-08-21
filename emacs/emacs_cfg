@@ -116,8 +116,38 @@
 (require 'auto-complete-config)
 (ac-config-default)
 (add-to-list 'ac-dictionary-directories autocomplete_dict)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun my-cpp-highlight ()
+  "highlight c/c++ #if 0 #endif macros"
+  ;; (interactive)
+  (setq cpp-known-face 'default)
+  (setq cpp-unknown-face 'default)
+  (setq cpp-known-writable 't)
+  (setq cpp-unknown-writable 't)
+  (setq cpp-edit-list '(("0" font-lock-comment-face default both)
+                        ("1" default font-lock-comment-face both)))
+  (cpp-highlight-buffer t))
 
+(add-hook 'c-mode-common-hook 'my-cpp-highlight)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq save-place-file "~/.emacs.saveplace")
+(setq-default save-place t)
+(require 'saveplace)
 
-(require 'highlight-symbol)
+(setq compilation-scroll-output 'first-error)
+
+(global-set-key [f5] 'compile)
+
+(defun comment-or-uncomment-region-or-line ()
+    "Comments or uncomments the region or the current line if there's no active region."
+    (interactive)
+    (let (beg end)
+        (if (region-active-p)
+            (setq beg (region-beginning) end (region-end))
+            (setq beg (line-beginning-position) end (line-end-position)))
+        (comment-or-uncomment-region beg end))
+    (next-line))
+
+(global-set-key [f6] 'comment-or-uncomment-region-or-line)
