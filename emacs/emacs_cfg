@@ -1,9 +1,10 @@
 (put 'upcase-region 'disabled nil)
-
 (setq cfg_path "~/cfg")
 
 (require 'ido)
 (ido-mode t)
+(setq ido-enable-flex-matching t)
+
 (setq c-basic-offset 4)
 (setq c-default-style '((java-mode . "java")
                         (awk-mode . "awk")
@@ -67,20 +68,10 @@
 )
 (add-to-list 'load-path color_theme_dir)
 (require 'color-theme)
-
-(setq solarize_theme_dir (concat
-                          (file-name-as-directory cfg_path)
-                          (file-name-as-directory "emacs")
-                          (file-name-as-directory "install")
-                          "emacs-color-theme-solarized-master")
+(when (display-graphic-p)
+  (color-theme-initialize)
+  (color-theme-deep-blue)
 )
-
-(add-to-list 'load-path solarize_theme_dir)
-(require 'color-theme-solarized)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-solarized-dark)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq highlight_symbol_dir (concat
@@ -151,3 +142,16 @@
     (next-line))
 
 (global-set-key [f6] 'comment-or-uncomment-region-or-line)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(setq yasnippet_dir  (concat
+                               (file-name-as-directory cfg_path)
+                               (file-name-as-directory "emacs")
+                               (file-name-as-directory "install")
+                               "yasnippet_bundle")
+)
+
+(add-to-list 'load-path yasnippet_dir)
+(require 'yasnippet-bundle)
+
