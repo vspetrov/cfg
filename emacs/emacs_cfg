@@ -107,3 +107,15 @@
 (require 'auto-complete-config)
 (ac-config-default)
 (add-to-list 'ac-dictionary-directories autocomplete_dict)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq yasnippet_dir  (concat
+                               (file-name-as-directory cfg_path)
+                               (file-name-as-directory "emacs")
+                               (file-name-as-directory "install")
+                               "yasnippet_bundle")
+)
+
+(add-to-list 'load-path yasnippet_dir)
+(require 'yasnippet-bundle)
