@@ -164,3 +164,6 @@
 
 (add-to-list 'command-switch-alist '("-diff" . command-line-diff))
 (setq ediff-split-window-function 'split-window-horizontally)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
