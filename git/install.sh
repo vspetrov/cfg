@@ -1,10 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 echo "Installing git config..."
 workdir=$( cd "$( dirname "$0" )" && pwd )
-mergetool_path=$workdir/mergetool.sh
-username=`whoami`
-homedir=`echo ~$username`
-cp -v $workdir/.gitconfig $homedir/.gitconfig
-perl -i -pe "s/\@MERGE\_TOOL\@/$mergetool_path" $homedir/.gitconfig
-
-echo "Finished.."
+echo "WORKDIR: $workdir"
+mergetool_path=$workdir/install/mergetool.sh
+mkdir -p install
+cp mergetool.sh install
+cp gitconfig install
+rm ~/.gitconfig
+ln -s $workdir/install/gitconfig ~/.gitconfig
+ln -s $workdir/install/mergetool.sh ~/.mergetool
+echo "Finished."
