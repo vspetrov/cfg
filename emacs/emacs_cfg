@@ -1,3 +1,4 @@
+(setq inhibit-splash-screen t)
 (put 'upcase-region 'disabled nil)
 (setq cfg_path "~/cfg")
 
@@ -155,3 +156,11 @@
 (add-to-list 'load-path yasnippet_dir)
 (require 'yasnippet-bundle)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun command-line-diff (switch)
+      (let ((file1 (pop command-line-args-left))
+            (file2 (pop command-line-args-left)))
+        (ediff file1 file2)))
+
+(add-to-list 'command-switch-alist '("-diff" . command-line-diff))
+(setq ediff-split-window-function 'split-window-horizontally)
