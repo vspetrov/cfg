@@ -38,7 +38,8 @@
     "Create tags file."
     (interactive "DDirectory: ")
     (shell-command
-     (format "ctags -f %s/TAGS -e -R %s" dir-name (directory-file-name dir-name)))
+     (format "ctags -f %s/TAGS -e -R %s" dir-name
+             (directory-file-name dir-name)))
   )
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -100,8 +101,8 @@
 )
 
 (setq autocomplete_dict (concat
-                               (file-name-as-directory autocomplete_dir)
-                               "dict")
+                        (file-name-as-directory autocomplete_dir)
+                        "dict")
 )
 
 (add-to-list 'load-path autocomplete_dir)
@@ -133,12 +134,14 @@
 (global-set-key [f5] 'compile)
 
 (defun comment-or-uncomment-region-or-line ()
-    "Comments or uncomments the region or the current line if there's no active region."
+    "Comments or uncomments the region or the
+     current line if there's no active region."
     (interactive)
     (let (beg end)
         (if (region-active-p)
             (setq beg (region-beginning) end (region-end))
-            (setq beg (line-beginning-position) end (line-end-position)))
+            (setq beg (line-beginning-position) end
+                  (line-end-position)))
         (comment-or-uncomment-region beg end))
     (next-line))
 
@@ -156,7 +159,7 @@
 (add-to-list 'load-path yasnippet_dir)
 (require 'yasnippet-bundle)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun command-line-diff (switch)
       (let ((file1 (pop command-line-args-left))
             (file2 (pop command-line-args-left)))
@@ -165,5 +168,22 @@
 (add-to-list 'command-switch-alist '("-diff" . command-line-diff))
 (setq ediff-split-window-function 'split-window-horizontally)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; FIll column indicator
+
+(setq fill_column_indicator_dir  (concat
+                               (file-name-as-directory cfg_path)
+                               (file-name-as-directory "emacs")
+                               (file-name-as-directory "install")
+                               "fill-column-indicator")
+)
+(setq-default fill-column 80)
+(add-to-list 'load-path fill_column_indicator_dir)
+(require 'fill-column-indicator)
+(define-globalized-minor-mode
+ global-fci-mode fci-mode (lambda () (fci-mode 1)))
+(global-fci-mode t)
