@@ -1,3 +1,4 @@
 #!/bin/bash
-tool=`which vim`
-[ $# -eq 7 ] && $tool "$2" "$5"
+tool=`which emacs`
+[ $# -eq 7 ] && $tool -nw -diff "$2" "$5"
+[ $# -eq 2 ] && $tool -nw -diff "$1" "$2"
