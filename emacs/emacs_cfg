@@ -175,15 +175,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; FIll column indicator
 
-(setq fill_column_indicator_dir  (concat
-                               (file-name-as-directory cfg_path)
-                               (file-name-as-directory "emacs")
-                               (file-name-as-directory "install")
-                               "fill-column-indicator")
-)
-(setq-default fill-column 80)
-(add-to-list 'load-path fill_column_indicator_dir)
-(require 'fill-column-indicator)
-(define-globalized-minor-mode
- global-fci-mode fci-mode (lambda () (fci-mode 1)))
-(global-fci-mode t)
+;; (setq fill_column_indicator_dir  (concat
+                               ;; (file-name-as-directory cfg_path)
+                               ;; (file-name-as-directory "emacs")
+                               ;; (file-name-as-directory "install")
+                               ;; "fill-column-indicator")
+;; )
+;; (setq-default fill-column 80)
+;; (add-to-list 'load-path fill_column_indicator_dir)
+;; (require 'fill-column-indicator)
+;; (define-globalized-minor-mode
+;;  global-fci-mode fci-mode (lambda () (fci-mode 1)))
+;; (global-fci-mode t)
