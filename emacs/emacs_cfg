@@ -15,7 +15,10 @@
 
 (setq-default indent-tabs-mode nil)
 (setq-default normal-erase-is-backspace-mode 1)
-(global-set-key [(control h)] 'delete-backward-char)
+
+(define-key key-translation-map [?\C-h] [?\C-?]) ;; translate C-h to DEL
+(define-key key-translation-map [?\C-/] [?\C-_]) ;; translate C-/ to C-_
+
 (global-set-key [(meta h)] 'backward-kill-word)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -187,3 +190,6 @@
 ;; (define-globalized-minor-mode
 ;;  global-fci-mode fci-mode (lambda () (fci-mode 1)))
 ;; (global-fci-mode t)
+
+(require 'term)
+(term-set-escape-char ?\C-x)
