@@ -2,6 +2,7 @@
 from os.path import expanduser
 import os
 import shutil
+from subprocess import call
 
 def main():
     print 'Installing emacs configs...'
@@ -35,6 +36,11 @@ def main():
     print "installing fill-column-indicator"
     os.system('mkdir fill-column-indicator')
     os.system('cp '+data_dir+'/fill-column-indicator.el fill-column-indicator')
+
+
+    print "installing xscope"
+    call(["git","clone","https://github.com/dkogan/xcscope.el.git","xcscope"])
+
     print "Emacs Install complete"
 
 if __name__ == '__main__':

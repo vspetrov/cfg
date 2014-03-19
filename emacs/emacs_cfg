@@ -193,3 +193,18 @@
 
 (require 'term)
 (term-set-escape-char ?\C-x)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq xcscope_dir  (concat
+                               (file-name-as-directory cfg_path)
+                               (file-name-as-directory "emacs")
+                               (file-name-as-directory "install")
+                               "xcscope")
+)
+
+
+(add-to-list 'load-path xcscope_dir)
+(require 'xcscope)
+(cscope-setup)
