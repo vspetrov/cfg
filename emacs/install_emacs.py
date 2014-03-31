@@ -25,6 +25,7 @@ def main():
     os.system('tar -xzf '+data_dir+'/magit-1.2.0.tar.gz')
     os.system('tar -xzf '+data_dir+'/color-theme-6.6.0.tar.gz')
     os.system('mkdir sr_speedbar && cp '+data_dir+'/sr-speedbar.el sr_speedbar/')
+    os.system('mkdir monokai-theme && cp '+data_dir+'/monokai-emacs-master/monokai-theme.el monokai-theme/')
     os.system('mkdir highlight_symbol && cp '+data_dir+'/highlight-symbol.el highlight_symbol/')
     os.system('tar -xjf '+data_dir+'/auto-complete-1.3.1.tar.bz2 && cd auto-complete-1.3.1 && make byte-compile && cd ..')
 

@@ -73,10 +73,18 @@
 )
 (add-to-list 'load-path color_theme_dir)
 (require 'color-theme)
-(when (display-graphic-p)
-  (color-theme-initialize)
-  (color-theme-deep-blue)
-)
+
+;;(when (display-graphic-p)
+;;  (color-theme-initialize)
+;;  (color-theme-deep-blue)
+;;)
+
+(add-to-list 'custom-theme-load-path (concat
+                                (file-name-as-directory cfg_path)
+                                (file-name-as-directory "emacs")
+                                (file-name-as-directory "install")
+                                "monokai-theme"))
+(load-theme 'monokai t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq highlight_symbol_dir (concat
@@ -208,3 +216,13 @@
 (add-to-list 'load-path xcscope_dir)
 (require 'xcscope)
 (cscope-setup)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;(cua-mode t)
+;;(setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
+;;(setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
+;;(cua-selection-mode t)
+;;(setq cua-enable-cua-keys nil)
+;;(setq cua-highlight-region-shift-only t)
+;;(setq cua-toggle-set-mark nil)
