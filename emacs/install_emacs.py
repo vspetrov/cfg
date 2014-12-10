@@ -42,6 +42,11 @@ def main():
     print "installing xscope"
     os.system('mkdir xcscope')
     os.system('cp '+data_dir+'/xcscope.el xcscope')
+
+    print "installing ws-trim"
+    os.system('mkdir ws_trim')
+    os.system('cp '+data_dir+'/ws-trim.el ws_trim')
+
 #    call(["git","clone","https://github.com/dkogan/xcscope.el.git","xcscope"])
 
     print "Emacs Install complete"

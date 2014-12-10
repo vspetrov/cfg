@@ -110,8 +110,13 @@
                                 (file-name-as-directory "install")
                                 (file-name-as-directory "monokai-theme")
                                 "monokai-theme.el"))
-)
+
 (require 'monokai-theme)
+(set-face-attribute 'default t :font "DejaVu Sans Mono")
+(set-face-attribute 'default nil :height 170)
+
+)
+
 
 
 ;; (setq solarized_theme_dir (concat
@@ -124,8 +129,6 @@
 ;; (require 'color-theme-solarized)
 ;; (load-theme 'solarized-dark t)
 
-(set-face-attribute 'default t :font "DejaVu Sans Mono")
-(set-face-attribute 'default nil :height 170)
 
 
 (setq ansi-term-color-vector [unspecified "#3f3f3f" "#cc9393" "#7f9f7f" "#f0dfaf" "#8cd0d3" "#dc8cc3" "#93e0e3" "#dcdccc"])
