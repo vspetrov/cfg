@@ -10,10 +10,23 @@
 (setq c-default-style '((java-mode . "java")
                         (awk-mode . "awk")
                         (other . "k&r")))
+
+
 (add-hook 'c-mode-hook (lambda () (setq comment-start "//"
                                         comment-end   "")))
 
 (setq-default indent-tabs-mode nil)
+
+
+(setq my-linux-style-path-alist (list (expand-file-name
+                               "/nfs/inn/proj/mpi/users/vapetrov/SFI/ssg_sfi-libfabric")))
+
+(add-hook 'c-mode-hook (lambda ()
+                           (dolist (path my-linux-style-path-alist)
+                             (if (string-match path (buffer-file-name))
+                                 (c-set-style "linux")))))
+
+
 (setq-default normal-erase-is-backspace-mode 1)
 
 (define-key key-translation-map [?\C-h] [?\C-?]) ;; translate C-h to DEL
@@ -45,7 +58,23 @@
              (directory-file-name dir-name)))
   )
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; ws-trim
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq ws-trim-dir (concat
+                                 (file-name-as-directory cfg_path)
+                                 (file-name-as-directory "emacs")
+                                 (file-name-as-directory "install")
+                                 "ws_trim")
+
+)
+(add-to-list 'load-path ws-trim-dir)
+(require 'ws-trim)
+(global-ws-trim-mode t)
+
+(which-func-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Setup sr-speedbar
@@ -74,17 +103,38 @@
 (add-to-list 'load-path color_theme_dir)
 (require 'color-theme)
 
-;;(when (display-graphic-p)
-;;  (color-theme-initialize)
-;;  (color-theme-deep-blue)
-;;)
-
-(add-to-list 'custom-theme-load-path (concat
+(when (display-graphic-p)
+(load-file (concat
                                 (file-name-as-directory cfg_path)
                                 (file-name-as-directory "emacs")
                                 (file-name-as-directory "install")
-                                "monokai-theme"))
-(load-theme 'monokai t)
+                                (file-name-as-directory "monokai-theme")
+                                "monokai-theme.el"))
+)
+(require 'monokai-theme)
+
+
+;; (setq solarized_theme_dir (concat
+;;                           (file-name-as-directory cfg_path)
+;;                           (file-name-as-directory "emacs")
+;;                           (file-name-as-directory "install")
+;;                           "emacs-color-theme-solarized")
+;; )
+;; (add-to-list 'load-path solarized_theme_dir)
+;; (require 'color-theme-solarized)
+;; (load-theme 'solarized-dark t)
+
+(set-face-attribute 'default t :font "DejaVu Sans Mono")
+(set-face-attribute 'default nil :height 170)
+
+
+(setq ansi-term-color-vector [unspecified "#3f3f3f" "#cc9393" "#7f9f7f" "#f0dfaf" "#8cd0d3" "#dc8cc3" "#93e0e3" "#dcdccc"])
+;;(add-to-list 'custom-theme-load-path (concat
+;;                                (file-name-as-directory cfg_path)
+;;                                (file-name-as-directory "emacs")
+;;                                (file-name-as-directory "install")
+;;                                "monokai-theme"))
+;;(load-theme 'monokai t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq highlight_symbol_dir (concat
@@ -169,6 +219,7 @@
 
 (add-to-list 'load-path yasnippet_dir)
 (require 'yasnippet-bundle)
+(yas/load-directory "~/.emacs.d/snippets")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun command-line-diff (switch)
@@ -235,3 +286,6 @@
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
+
+(menu-bar-mode 0)
+(tool-bar-mode 0)

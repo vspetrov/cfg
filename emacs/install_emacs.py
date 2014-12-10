@@ -34,13 +34,15 @@ def main():
     os.system('tar -xzf '+data_dir+'/yasnippet-bundle-0.6.1c.el.tgz')
     os.system('mv yasnippet-bundle.el yasnippet_bundle/')
 
-    print "installing fill-column-indicator"
-    os.system('mkdir fill-column-indicator')
-    os.system('cp '+data_dir+'/fill-column-indicator.el fill-column-indicator')
+#    print "installing fill-column-indicator"
+#    os.system('mkdir fill-column-indicator')
+#    os.system('cp '+data_dir+'/fill-column-indicator.el fill-column-indicator')
 
 
     print "installing xscope"
-    call(["git","clone","https://github.com/dkogan/xcscope.el.git","xcscope"])
+    os.system('mkdir xcscope')
+    os.system('cp '+data_dir+'/xcscope.el xcscope')
+#    call(["git","clone","https://github.com/dkogan/xcscope.el.git","xcscope"])
 
     print "Emacs Install complete"
 
