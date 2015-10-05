@@ -1,4 +1,11 @@
 (setq inhibit-splash-screen t)
+
+;; System-type definition
+(defun system-is-linux()
+    (string-equal system-type "gnu/linux"))
+(defun system-is-windows()
+    (string-equal system-type "windows-nt"))
+
 (put 'upcase-region 'disabled nil)
 (setq cfg_path "~/cfg")
 
@@ -19,7 +26,12 @@
 
 
 (setq my-linux-style-path-alist (list (expand-file-name
-                               "/nfs/inn/proj/mpi/users/vapetrov/SFI/ssg_sfi-libfabric")))
+                                       "/nfs/inn/proj/mpi/users/vapetrov/OFI/ssg_sfi-libfabric")
+                                      (expand-file-name
+                                       "/nfs/inn/proj/mpi/users/vapetrov/github/libfabric")
+                                      )
+)
+
 
 (add-hook 'c-mode-hook (lambda ()
                            (dolist (path my-linux-style-path-alist)
@@ -37,11 +49,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Setup Magit - Git front end for emacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq dash_dir (concat
+                          (file-name-as-directory cfg_path)
+                          (file-name-as-directory "emacs")
+                          (file-name-as-directory "install")
+                          "dash.el")
+)
+(add-to-list 'load-path dash_dir)
+
 (setq magit_dir (concat
                           (file-name-as-directory cfg_path)
                           (file-name-as-directory "emacs")
                           (file-name-as-directory "install")
-                          "magit-1.2.0")
+                          (file-name-as-directory "magit")
+                          "lisp")
 )
 (add-to-list 'load-path magit_dir)
 (require 'magit)
@@ -79,18 +100,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Setup sr-speedbar
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq sr-speedbar-dir (concat
-                                (file-name-as-directory cfg_path)
-                                (file-name-as-directory "emacs")
-                                (file-name-as-directory "install")
-                                "sr_speedbar")
+;;(setq sr-speedbar-dir (concat
+;;                                (file-name-as-directory cfg_path)
+;;                                (file-name-as-directory "emacs")
+;;                                (file-name-as-directory "install")
+;;                                "sr_speedbar")
+;;
+;;)
+;;(add-to-list 'load-path sr-speedbar-dir)
+;;(require 'sr-speedbar)
+;;(global-set-key (kbd "M-s M-s") 'sr-speedbar-toggle)
 
-)
-(add-to-list 'load-path sr-speedbar-dir)
-(require 'sr-speedbar)
-(global-set-key (kbd "M-s M-s") 'sr-speedbar-toggle)
-
-(show-paren-mode 1)
+;;(show-paren-mode 1)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Setup Color-themes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -112,9 +133,8 @@
                                 "monokai-theme.el"))
 
 (require 'monokai-theme)
-(set-face-attribute 'default t :font "DejaVu Sans Mono")
-(set-face-attribute 'default nil :height 170)
-
+(set-default-font
+ "-Misc-Fixed-Medium-R-Normal--15-140-75-75-C-90-ISO8859-1")
 )
 
 
@@ -292,3 +312,48 @@
 
 (menu-bar-mode 0)
 (tool-bar-mode 0)
+
+;; Show-paren-mode settings
+(show-paren-mode t) ;; включить выделение выражений между {},[],()
+(setq show-paren-style 'expression) ;; выделить цветом выражения между {},[],()
+(setq redisplay-dont-pause t)  ;; лучшая отрисовка буфера
+
+;; Coding-system settings
+(set-language-environment 'UTF-8)
+(if (system-is-linux) ;; для GNU/Linux кодировка utf-8, для MS Windows - windows-1251
+    (progn
+        (setq default-buffer-file-coding-system 'utf-8)
+        (setq-default coding-system-for-read    'utf-8)
+        (setq file-name-coding-system           'utf-8)
+        (set-selection-coding-system            'utf-8)
+        (set-keyboard-coding-system        'utf-8-unix)
+        (set-terminal-coding-system             'utf-8)
+        (prefer-coding-system                   'utf-8))
+    (progn
+        (prefer-coding-system                   'windows-1251)
+        (set-terminal-coding-system             'windows-1251)
+        (set-keyboard-coding-system        'windows-1251-unix)
+        (set-selection-coding-system            'windows-1251)
+        (setq file-name-coding-system           'windows-1251)
+        (setq-default coding-system-for-read    'windows-1251)
+        (setq default-buffer-file-coding-system 'windows-1251)))
+
+;; Linum plugin
+(require 'linum) ;; вызвать Linum
+(line-number-mode   t) ;; показать номер строки в mode-line
+(global-linum-mode  t) ;; показывать номера строк во всех буферах
+(column-number-mode t) ;; показать номер столбца в mode-line
+(setq linum-format " %d") ;; задаем формат нумерации строк
+
+;; Syntax highlighting
+(require 'font-lock)
+(global-font-lock-mode             t) ;; включено с версии Emacs-22. На всякий...
+(setq font-lock-maximum-decoration t)
+
+;; Scrolling settings
+(setq scroll-step               1) ;; вверх-вниз по 1 строке
+(setq scroll-margin            10) ;; сдвигать буфер верх/вниз когда курсор в 10 шагах от верхней/нижней границы
+(setq scroll-conservatively 10000)
+
+;; Clipboard settings
+(setq x-select-enable-clipboard t)
