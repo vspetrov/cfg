@@ -2,12 +2,12 @@
 
 ;; System-type definition
 (defun system-is-linux()
-    (string-equal system-type "gnu/linux"))
+  (string-equal system-type "gnu/linux"))
 (defun system-is-windows()
-    (string-equal system-type "windows-nt"))
+  (string-equal system-type "windows-nt"))
 
 (put 'upcase-region 'disabled nil)
-(setq cfg_path "~/cfg")
+(setq cfg_path "~/workspace/cfg")
 
 (require 'ido)
 (ido-mode t)
@@ -25,18 +25,18 @@
 (setq-default indent-tabs-mode nil)
 
 
-(setq my-linux-style-path-alist (list (expand-file-name
-                                       "/nfs/inn/proj/mpi/users/vapetrov/OFI/ssg_sfi-libfabric")
-                                      (expand-file-name
-                                       "/nfs/inn/proj/mpi/users/vapetrov/github/libfabric")
-                                      )
-)
+;; (setq my-linux-style-path-alist (list (expand-file-name
+;;                                        "/nfs/inn/proj/mpi/users/vapetrov/OFI/ssg_sfi-libfabric")
+;;                                       (expand-file-name
+;;                                        "/nfs/inn/proj/mpi/users/vapetrov/github/libfabric")
+;;                                       )
+;; )
 
 
 (add-hook 'c-mode-hook (lambda ()
-                           (dolist (path my-linux-style-path-alist)
-                             (if (string-match path (buffer-file-name))
-                                 (c-set-style "linux")))))
+			 (dolist (path my-linux-style-path-alist)
+			   (if (string-match path (buffer-file-name))
+                               (c-set-style "linux")))))
 
 
 (setq-default normal-erase-is-backspace-mode 1)
@@ -50,20 +50,20 @@
 ;;; Setup Magit - Git front end for emacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq dash_dir (concat
-                          (file-name-as-directory cfg_path)
-                          (file-name-as-directory "emacs")
-                          (file-name-as-directory "install")
-                          "dash.el")
-)
+                (file-name-as-directory cfg_path)
+                (file-name-as-directory "emacs")
+                (file-name-as-directory "install")
+                "dash.el")
+      )
 (add-to-list 'load-path dash_dir)
 
 (setq magit_dir (concat
-                          (file-name-as-directory cfg_path)
-                          (file-name-as-directory "emacs")
-                          (file-name-as-directory "install")
-                          (file-name-as-directory "magit")
-                          "lisp")
-)
+                 (file-name-as-directory cfg_path)
+                 (file-name-as-directory "emacs")
+                 (file-name-as-directory "install")
+                 (file-name-as-directory "magit")
+                 "lisp")
+      )
 (add-to-list 'load-path magit_dir)
 (require 'magit)
 (defalias 'mg 'magit-status)
@@ -72,11 +72,11 @@
 
 
 (defun create-tags (dir-name)
-    "Create tags file."
-    (interactive "DDirectory: ")
-    (shell-command
-     (format "ctags -f %s/TAGS -e -R %s" dir-name
-             (directory-file-name dir-name)))
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format "ctags -f %s/TAGS -e -R %s" dir-name
+           (directory-file-name dir-name)))
   )
 
 ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -85,87 +85,27 @@
 ;;; ws-trim
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq ws-trim-dir (concat
-                                 (file-name-as-directory cfg_path)
-                                 (file-name-as-directory "emacs")
-                                 (file-name-as-directory "install")
-                                 "ws_trim")
+                   (file-name-as-directory cfg_path)
+                   (file-name-as-directory "emacs")
+                   (file-name-as-directory "install")
+                   "ws_trim")
 
-)
+      )
 (add-to-list 'load-path ws-trim-dir)
 (require 'ws-trim)
 (global-ws-trim-mode t)
 
 (which-func-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Setup sr-speedbar
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;(setq sr-speedbar-dir (concat
-;;                                (file-name-as-directory cfg_path)
-;;                                (file-name-as-directory "emacs")
-;;                                (file-name-as-directory "install")
-;;                                "sr_speedbar")
-;;
-;;)
-;;(add-to-list 'load-path sr-speedbar-dir)
-;;(require 'sr-speedbar)
-;;(global-set-key (kbd "M-s M-s") 'sr-speedbar-toggle)
+(global-set-key (kbd "M-s M-s") 'sr-speedbar-toggle)
 
-;;(show-paren-mode 1)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Setup Color-themes
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq color_theme_dir (concat
-                          (file-name-as-directory cfg_path)
-                          (file-name-as-directory "emacs")
-                          (file-name-as-directory "install")
-                          "color-theme-6.6.0")
-)
-(add-to-list 'load-path color_theme_dir)
-(require 'color-theme)
-
-(when (display-graphic-p)
-(load-file (concat
-                                (file-name-as-directory cfg_path)
-                                (file-name-as-directory "emacs")
-                                (file-name-as-directory "install")
-                                (file-name-as-directory "monokai-theme")
-                                "monokai-theme.el"))
-
-(require 'monokai-theme)
-(set-default-font
- "-Misc-Fixed-Medium-R-Normal--15-140-75-75-C-90-ISO8859-1")
-)
-
-
-
-;; (setq solarized_theme_dir (concat
-;;                           (file-name-as-directory cfg_path)
-;;                           (file-name-as-directory "emacs")
-;;                           (file-name-as-directory "install")
-;;                           "emacs-color-theme-solarized")
-;; )
-;; (add-to-list 'load-path solarized_theme_dir)
-;; (require 'color-theme-solarized)
-;; (load-theme 'solarized-dark t)
-
-
-
-(setq ansi-term-color-vector [unspecified "#3f3f3f" "#cc9393" "#7f9f7f" "#f0dfaf" "#8cd0d3" "#dc8cc3" "#93e0e3" "#dcdccc"])
-;;(add-to-list 'custom-theme-load-path (concat
-;;                                (file-name-as-directory cfg_path)
-;;                                (file-name-as-directory "emacs")
-;;                                (file-name-as-directory "install")
-;;                                "monokai-theme"))
-;;(load-theme 'monokai t)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq highlight_symbol_dir (concat
-                           (file-name-as-directory cfg_path)
-                           (file-name-as-directory "emacs")
-                           (file-name-as-directory "install")
-                           "highlight_symbol")
-)
+                            (file-name-as-directory cfg_path)
+                            (file-name-as-directory "emacs")
+                            (file-name-as-directory "install")
+                            "highlight_symbol")
+      )
 
 (add-to-list 'load-path highlight_symbol_dir)
 
@@ -177,23 +117,30 @@
 (global-set-key [f4] 'highlight-symbol-prev)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq autocomplete_dir  (concat
-                               (file-name-as-directory cfg_path)
-                               (file-name-as-directory "emacs")
-                               (file-name-as-directory "install")
-                               "auto-complete-1.3.1")
-)
 
-(setq autocomplete_dict (concat
-                        (file-name-as-directory autocomplete_dir)
-                        "dict")
-)
 
-(add-to-list 'load-path autocomplete_dir)
+(require 'package)
+(package-initialize)
+(add-to-list'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+
+
+(require 'auto-complete)
 (require 'auto-complete-config)
 (ac-config-default)
-(add-to-list 'ac-dictionary-directories autocomplete_dict)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-auto-complete-mode t)
+(require 'yasnippet)
+(yas-global-mode 1)
+
+;;let's define a function which initializes auto-complete-c-headers and gets called for c/c++ hooks
+(defun my:ac-c-header-init ()
+  (require 'auto-complete-c-headers)
+  (add-to-list 'ac-sources 'ac-source-c-headers)
+  (add-to-list 'achead:include-directories '"/use/include")
+  )
+                                        ; now let's call this function from c/c++ hooks
+(add-hook 'c++-mode-hook 'my:ac-c-header-init)
+(add-hook 'c-mode-hook 'my:ac-c-header-init)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun my-cpp-highlight ()
   "highlight c/c++ #if 0 #endif macros"
@@ -218,76 +165,47 @@
 (global-set-key [f5] 'compile)
 
 (defun comment-or-uncomment-region-or-line ()
-    "Comments or uncomments the region or the
+  "Comments or uncomments the region or the
      current line if there's no active region."
-    (interactive)
-    (let (beg end)
-        (if (region-active-p)
-            (setq beg (region-beginning) end (region-end))
-            (setq beg (line-beginning-position) end
-                  (line-end-position)))
-        (comment-or-uncomment-region beg end))
-    (next-line))
+  (interactive)
+  (let (beg end)
+    (if (region-active-p)
+        (setq beg (region-beginning) end (region-end))
+      (setq beg (line-beginning-position) end
+            (line-end-position)))
+    (comment-or-uncomment-region beg end))
+  (next-line))
 
 (global-set-key [f6] 'comment-or-uncomment-region-or-line)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(setq yasnippet_dir  (concat
-                               (file-name-as-directory cfg_path)
-                               (file-name-as-directory "emacs")
-                               (file-name-as-directory "install")
-                               "yasnippet_bundle")
-)
-
-(add-to-list 'load-path yasnippet_dir)
-(require 'yasnippet-bundle)
-(yas/load-directory "~/.emacs.d/snippets")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun command-line-diff (switch)
-      (let ((file1 (pop command-line-args-left))
-            (file2 (pop command-line-args-left)))
-        (ediff file1 file2)))
+  (let ((file1 (pop command-line-args-left))
+        (file2 (pop command-line-args-left)))
+    (ediff file1 file2)))
 
 (add-to-list 'command-switch-alist '("-diff" . command-line-diff))
 (setq ediff-split-window-function 'split-window-horizontally)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; FIll column indicator
-
-;; (setq fill_column_indicator_dir  (concat
-                               ;; (file-name-as-directory cfg_path)
-                               ;; (file-name-as-directory "emacs")
-                               ;; (file-name-as-directory "install")
-                               ;; "fill-column-indicator")
-;; )
-;; (setq-default fill-column 80)
-;; (add-to-list 'load-path fill_column_indicator_dir)
-;; (require 'fill-column-indicator)
-;; (define-globalized-minor-mode
-;;  global-fci-mode fci-mode (lambda () (fci-mode 1)))
-;; (global-fci-mode t)
-
-(require 'term)
-(term-set-escape-char ?\C-x)
-
-
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq-default indent-tabs-mode nil)
+            (setq-default tab-width 4)
+            (setq-default python-indent 4)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq xcscope_dir  (concat
-                               (file-name-as-directory cfg_path)
-                               (file-name-as-directory "emacs")
-                               (file-name-as-directory "install")
-                               "xcscope")
-)
-
-
-(add-to-list 'load-path xcscope_dir)
+;;
+;;setq xcscope_dir  (concat
+;;                              (file-name-as-directory cfg_path)
+;;                              (file-name-as-directory "emacs")
+;;                              (file-name-as-directory "install")
+;;                              "xcscope")
+;;
+;;
+;;
+;;add-to-list 'load-path xcscope_dir)
 (require 'xcscope)
 (cscope-setup)
 
@@ -300,7 +218,7 @@
 (setq cua-enable-cua-keys nil)
 ;;(setq cua-highlight-region-shift-only t)
 (setq cua-toggle-set-mark nil)
-
+(global-set-key (kbd "C-c [") 'cua-rectangle-mark-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org mode
 
@@ -313,47 +231,132 @@
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 
-;; Show-paren-mode settings
-(show-paren-mode t) ;; включить выделение выражений между {},[],()
-(setq show-paren-style 'expression) ;; выделить цветом выражения между {},[],()
-(setq redisplay-dont-pause t)  ;; лучшая отрисовка буфера
+;;Show-paren-mode settings
+(show-paren-mode t) 
+(setq show-paren-style 'expression) 
+(setq redisplay-dont-pause t)  
+(defadvice show-paren-function
+    (after show-matching-paren-offscreen activate)
+  "If the matching paren is offscreen, show the matching line in the
+        echo area. Has no effect if the character before point is not of
+        the syntax class ')'."
+  (interactive)
+  (let* ((cb (char-before (point)))
+         (matching-text (and cb
+                             (char-equal (char-syntax cb) ?\) )
+                             (blink-matching-open))))
+    (when matching-text (message matching-text))))
 
 ;; Coding-system settings
 (set-language-environment 'UTF-8)
-(if (system-is-linux) ;; для GNU/Linux кодировка utf-8, для MS Windows - windows-1251
+(if (system-is-linux)
     (progn
-        (setq default-buffer-file-coding-system 'utf-8)
-        (setq-default coding-system-for-read    'utf-8)
-        (setq file-name-coding-system           'utf-8)
-        (set-selection-coding-system            'utf-8)
-        (set-keyboard-coding-system        'utf-8-unix)
-        (set-terminal-coding-system             'utf-8)
-        (prefer-coding-system                   'utf-8))
-    (progn
-        (prefer-coding-system                   'windows-1251)
-        (set-terminal-coding-system             'windows-1251)
-        (set-keyboard-coding-system        'windows-1251-unix)
-        (set-selection-coding-system            'windows-1251)
-        (setq file-name-coding-system           'windows-1251)
-        (setq-default coding-system-for-read    'windows-1251)
-        (setq default-buffer-file-coding-system 'windows-1251)))
+      (setq default-buffer-file-coding-system 'utf-8)
+      (setq-default coding-system-for-read    'utf-8)
+      (setq file-name-coding-system           'utf-8)
+      (set-selection-coding-system            'utf-8)
+      (set-keyboard-coding-system        'utf-8-unix)
+      (set-terminal-coding-system             'utf-8)
+      (prefer-coding-system                   'utf-8))
+  (progn
+    (prefer-coding-system                   'windows-1251)
+    (set-terminal-coding-system             'windows-1251)
+    (set-keyboard-coding-system        'windows-1251-unix)
+    (set-selection-coding-system            'windows-1251)
+    (setq file-name-coding-system           'windows-1251)
+    (setq-default
+     (setq default-buffer-file-coding-system 'windows-1251))))
 
 ;; Linum plugin
-(require 'linum) ;; вызвать Linum
-(line-number-mode   t) ;; показать номер строки в mode-line
-(global-linum-mode  t) ;; показывать номера строк во всех буферах
-(column-number-mode t) ;; показать номер столбца в mode-line
-(setq linum-format " %d") ;; задаем формат нумерации строк
+(require 'linum)  
+(line-number-mode   t) 
+(global-linum-mode  t) 
+(column-number-mode t) 
+(setq linum-format " %d") 
 
 ;; Syntax highlighting
 (require 'font-lock)
-(global-font-lock-mode             t) ;; включено с версии Emacs-22. На всякий...
+(global-font-lock-mode             t)
 (setq font-lock-maximum-decoration t)
 
 ;; Scrolling settings
-(setq scroll-step               1) ;; вверх-вниз по 1 строке
-(setq scroll-margin            10) ;; сдвигать буфер верх/вниз когда курсор в 10 шагах от верхней/нижней границы
+(setq scroll-step               1) 
+(setq scroll-margin            10)
 (setq scroll-conservatively 10000)
 
 ;; Clipboard settings
 (setq x-select-enable-clipboard t)
+;; (set-face-attribute 'region nil :background "#666" :foreground "#ffffff")
+
+;;(when (not (display-graphic-p))
+;;	(set-background-color "#121212"))
+
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   (vector "#eaeaea" "#d54e53" "DarkOliveGreen3" "#e7c547" "DeepSkyBlue1" "#c397d8" "#70c0b1" "#1c1c1c"))
+ '(custom-enabled-themes (quote (afternoon)))
+ '(custom-safe-themes
+   (quote
+    ("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "28ec8ccf6190f6a73812df9bc91df54ce1d6132f18b4c8fcc85d45298569eb53" "e1112c5739d21c23b9c5b2307332b9038001d020f9b01cd2c24b59ffdc25b6be" default)))
+ '(fci-rule-color "#121212")
+ '(red "#ffffff")
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#d54e53")
+     (40 . "goldenrod")
+     (60 . "#e7c547")
+     (80 . "DarkOliveGreen3")
+     (100 . "#70c0b1")
+     (120 . "DeepSkyBlue1")
+     (140 . "#c397d8")
+     (160 . "#d54e53")
+     (180 . "goldenrod")
+     (200 . "#e7c547")
+     (220 . "DarkOliveGreen3")
+     (240 . "#70c0b1")
+     (260 . "DeepSkyBlue1")
+     (280 . "#c397d8")
+     (300 . "#d54e53")
+     (320 . "goldenrod")
+     (340 . "#e7c547")
+     (360 . "DarkOliveGreen3"))))
+ '(vc-annotate-very-old-color nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+                                        ; turn on Semantic
+(semantic-mode 1)
+                                        ; let's define a function which adds semantic as a suggestion backend to auto complete
+                                        ; and hook this function to c-mode-common-hook
+(defun my:add-semantic-to-autocomplete()
+  (add-to-list 'ac-sources 'ac-source-semantic)
+  )
+(add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
+                                        ; turn on ede mode
+                                        ; create a project for our program.
+
+(global-ede-mode t)
+(ede-cpp-root-project "hcoll" :file "/labhome/valentinp/workspace/hcoll/src/Makefile.am"
+                      :include-path '("hcoll/api")
+                      :compile-command "cd $WDIR/hcoll/build_rel; make -j8; make -j8 install"
+                      )
+                                        ; you can use system-include-path for setting up the system header file locations.
+                                        ; turn on automatic reparsing of open buffers in semantic
+
+(defalias 'list-buffers 'ibuffer)
+
+
+(setq dired-dwim-target t)
