@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: backtrace
+# key: btr
+# --
+{
+    int j, nptrs; void *buffer[100]; char **strings;
+    nptrs = backtrace(buffer, 100);
+    strings = backtrace_symbols(buffer, nptrs);
+    for (j = 0; j < nptrs; j++) printf("%s\n", strings[j]);
+    free(strings);
+}

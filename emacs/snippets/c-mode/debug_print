@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: debug-print
+# key: dbp
+# --
+fprintf(stderr,"[%d][%s] -- [%d]\n",getpid(),__FUNCTION__,__LINE__);

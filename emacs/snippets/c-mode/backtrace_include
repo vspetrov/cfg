@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: backtrace_include
+# key: bti
+# --
+#include "execinfo.h"
+
