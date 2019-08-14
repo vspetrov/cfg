@@ -1,0 +1,165 @@
+# .bashrc
+
+# User specific aliases and functions
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+export TERM=xterm-256color
+setterm -blength 0
+export HISTTIMEFORMAT="%d/%m/%y %T "
+# avoid duplicates..
+export HISTCONTROL=ignoredups:erasedups
+# append history entries..
+shopt -s histappend
+export HISTSIZE=10000
+export HISTFILESIZE=30000
+
+export WDIR=/labhome/valentinp/workspace
+alias wd="cd $WDIR"
+export PS1='\[\033k\033\\\]'
+export PS1="\n\[\033[31m\][\w]\n"$PS1"\[\033[36m\][\u@\[\033[32m\]\h\[\033[36m\]]\[\033[37m\]"'> '
+export PATH="$WDIR/tools/bin:$WDIR/IMB/bin:$PATH"
+export LD_LIBRARY_PATH="$WDIR/tools/lib64:$WDIR/tools/lib:$LD_LIBRARY_PATH"
+alias em="TERM=xterm-256color emacs"
+
+
+alias shosts="scontrol show hostnames $SLURM_NODELIST | tr '\n' ',' | rev | cut -c 2- | rev"
+alias sssh="scontrol show hostnames > ~/.sh; ssh"
+
+function hs {
+    if [ "x$@" == "x" ]; then
+        history
+    else
+        history | grep $@
+    fi
+}
+function hl {
+    slurm_job_id=$1
+    SLURM_NODELIST=`scontrol show job $slurm_job_id | grep " NodeList=" | tr '=' ' ' | awk '{print $2}'` scontrol show hostnames
+}
+
+function hl2 {
+    hl $1 | tr '\n' ',' | rev | cut -c 2- | rev
+}
+
+function my_slurm_job_id {
+    squeue -a | grep valentin | grep bash | grep -v "CG" | awk '{print $1}'
+}
+
+function my_slurm_hosts {
+    squeue -a | grep valentin | grep bash | grep -v "CG" | awk '{print $8}'
+}
+alias msh=my_slurm_hosts
+function HL {
+    id=`my_slurm_job_id`
+    hl2 $id
+}
+
+function hl2file {
+    outfile=$1
+    HL | tr ',' '\n' > $outfile
+}
+
+function ipm_profile {
+    echo "-x IPM_LOG=full -x IPM_REPORT=full -x IPM_KEYFILE=${HPCX_IPM_DIR}/etc/ipm_key_mpi -x LD_PRELOAD=${HPCX_IPM_LIB}"
+}
+
+export OMPI_MCA_btl_openib_warn_default_gid_prefix=0
+function set_benchmarks {
+    export IMB=$HPCX_MPI_TESTS_DIR/imb/IMB-MPI1
+    osu=$(find $HPCX_MPI_TESTS_DIR -type d -name "osu-micro-*" | grep -v cuda)
+    prefix=
+    if [ "$1" == "cuda" ]; then
+        osu=${osu}-cuda
+        prefix=$osu/get_local_rank
+    fi
+    
+    for b in `ls $osu/`; do
+        export $b="${prefix} ${osu}/$b";
+    done
+
+}
+
+function hcoll_dbg {
+    echo $HPCX_HCOLL_DIR/debug/lib/libhcoll.so
+}
+
+function hcoll_debug_preload {
+    echo "-x LD_PRELOAD="`hcoll_dbg`
+}
+alias hdp=hcoll_debug_preload
+alias sb=set_benchmarks
+
+function mrun {
+    cmd=$@
+    rst=log_`date | tr ' ' '_' | tr ':' '_'`.txt
+    echo $cmd > $rst
+    set -x
+    time $cmd 2>&1 | tee -a $rst
+    set +x
+}
+
+function nif {
+    interface="$@"
+    dev_major=${interface:0:1}
+    dev_minor=${interface:1:1}
+    dev_port=${interface:2:1}
+    if [ "x$dev_port" == "x" ] ; then
+        dev_port="1"
+    fi
+    dev_line="mlx${dev_major}_${dev_minor}:${dev_port}"
+    echo "-x MXM_IB_PORTS=$dev_line -x HCOLL_MAIN_IB=$dev_line -mca btl_openib_if_include $dev_line -x UCX_NET_DEVICES=$dev_line "
+}
+
+alias sq="squeue -al"
+alias si="sinfo"
+
+function move_git_range {
+    repo=$1
+    commit1=$2
+    commit2=$3
+    cd $repo
+    commits=(`git log $commit1~1..$commit2 --oneline | awk '{print $1}'`)
+    echo "Processing commits: ${commits[*]}"
+    cd -;
+    for ((i=${#commits[@]}-1; i>=0; i--)); do
+        git mc $repo ${commits[$i]}
+    done
+}
+
+function impi_dapl {
+    hca=$1
+    port=$2
+    MPIFLAGS=" -genv DAT_OVERRIDE /etc/dat.conf -genv I_MPI_DAT_LIBRARY /usr/lib64/libdat2.so -DAPL -genv I_MPI_FABRICS shm:dapl -genv I_MPI_DAPL_PROVIDER ofa-v2-$hca-${port}u"
+    MPIFLAGS+=" -genv DAPL_MAX_INLINE 256 "
+    MPIFLAGS+=" -genv I_MPI_DAPL_RDMA_RNDV_WRITE on "
+    MPIFLAGS+=" -genv DAPL_IB_MTU 4096 "
+    echo $MPIFLAGS
+}
+
+function impi_ofa {
+    hca=$1
+    port=$2
+    MPIFLAGS="-IB "
+    MPIFLAGS+="-genv MV2_USE_APM 0 "
+    MPIFLAGS+="-genv I_MPI_FABRICS shm:ofa "
+    MPIFLAGS+="-genv I_MPI_OFA_USE_XRC 1 "
+    MPIFLAGS+="-genv I_MPI_OFA_NUM_ADAPTERS 1 "
+    MPIFLAGS+="-genv I_MPI_OFA_ADAPTER_NAME $hca "
+    MPIFLAGS+="-genv I_MPI_OFA_NUM_PORTS $port "
+    echo $MPIFLAGS
+}
+
+function clean_corefiles {
+    rm -f core.*
+}
+
+alias ccf='clean_corefiles'
+
+function show_quota {
+    df -h  /auto/mtrswgwork/valentinp
+}

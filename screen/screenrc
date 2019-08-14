@@ -1,0 +1,13 @@
+hardstatus alwayslastline                                                                                                                          
+#hardstatus string '%{= mK}%-Lw%{= KW}%50>%n%f* %t%{= mK}%+Lw%< %{= kG}%-=%D %d %M %Y %c:%s%{-}'
+shelltitle "> |"
+hardstatus string '%{= kG}[ %{G}%H %{g}]%{b}[%= %{= kw}%-Lw %{= bW}%n %t %{= kw}%+Lw %= %{b}]%{g}[%{y} %d.%m.%Y %{W}%c %{g}]'
+#hardstatus alwayslastline "%{b kw}%H %{r}%1` %{w}| %{g}%c %{w}| %{y}%d.%m.%Y %{w}| %{g}%l %{w}| %{-b kw}%u %-Lw%{= rW}%50> %n%f %t %{-}%+Lw%<"
+altscreen on
+escape ^\\
+#attrcolor b ".I"
+#termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E38;5;%dm'
+#defbce "on"
+startup_message off
+defscrollback 30000
+term screen-256color
