@@ -1,23 +1,25 @@
 [user]
-	name = Valentin Petrov
-	email = valentin.petrov@itseez.com
+        name = Valentin Petrov
+        email = valentinp@mellanox.com
 [credential]
-	helper = cache
+        helper = cache
 [merge]
-	tool = extMerge
+        tool = extMerge
 
 [alias]
         lg1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
         lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
         lg = !"git lg1"
         st = !"git status -suno"
+        mc = "!f() { git --git-dir="$1"/.git format-patch -k -1 --stdout "$2" | git am -3 -k; }; f"
+        up = !"git fetch upstream master; git rebase upstream/master"
 
 [mergetool "extMerge"]
         cmd = extMerge \"$LOCAL\" \"$REMOTE\"
         trustExitCode = false
 [core]
-        editor = emacs -nw
-
+        editor = vim
+        excludesfile = ~/.gitignore
 [color]
     ui = auto
 
@@ -26,3 +28,4 @@
     frag = magenta bold
     old = red bold
     new = green bold
+
