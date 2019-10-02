@@ -39,30 +39,58 @@
   (global-semantic-stickyfunc-mode 1)
   (semantic-mode 1))
 
-(use-package ede
-  :config
-  ;; Enable EDE only in C/C++
-  (global-ede-mode))
+;; (use-package ggtags
+;;   :config
+;;   (ggtags-mode 1)
+;;   (add-hook 'c-mode-common-hook
+;; 	    (lambda ()
+;; 	      (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
+;; 		(ggtags-mode 1))))
 
-(use-package ggtags
-  :config
-  (ggtags-mode 1)
-  (add-hook 'c-mode-common-hook
-	    (lambda ()
-	      (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
-		(ggtags-mode 1))))
+;;   (dolist (map (list ggtags-mode-map))
+;;     (define-key map (kbd "C-c g s") 'ggtags-find-other-symbol)
+;;     (define-key map (kbd "C-c g h") 'ggtags-view-tag-history)
+;;     (define-key map (kbd "C-c g r") 'ggtags-find-reference)
+;;     (define-key map (kbd "C-c g f") 'ggtags-find-file)
+;;     (define-key map (kbd "C-c g c") 'ggtags-create-tags)
+;;     (define-key map (kbd "C-c g u") 'ggtags-update-tags)
+;;     (define-key map (kbd "M-.")     'ggtags-find-tag-dwim)
+;;     (define-key map (kbd "M-,")     'pop-tag-mark)
+;;     (define-key map (kbd "C-c <")   'ggtags-prev-mark)
+;;     (define-key map (kbd "C-c >")   'ggtags-next-mark)))
 
-  (dolist (map (list ggtags-mode-map))
-    (define-key map (kbd "C-c g s") 'ggtags-find-other-symbol)
-    (define-key map (kbd "C-c g h") 'ggtags-view-tag-history)
-    (define-key map (kbd "C-c g r") 'ggtags-find-reference)
-    (define-key map (kbd "C-c g f") 'ggtags-find-file)
-    (define-key map (kbd "C-c g c") 'ggtags-create-tags)
-    (define-key map (kbd "C-c g u") 'ggtags-update-tags)
-    (define-key map (kbd "M-.")     'ggtags-find-tag-dwim)
-    (define-key map (kbd "M-,")     'pop-tag-mark)
-    (define-key map (kbd "C-c <")   'ggtags-prev-mark)
-    (define-key map (kbd "C-c >")   'ggtags-next-mark)))
+;; Enable helm-gtags-mode
+(use-package helm-gtags
+  :config
+  (helm-gtags-mode 1)
+  (add-hook 'c-mode-hook 'helm-gtags-mode)
+  (add-hook 'c++-mode-hook 'helm-gtags-mode)
+  (add-hook 'asm-mode-hook 'helm-gtags-mode)
+  (dolist (map (list helm-gtags-mode-map))
+    (define-key map (kbd "M-g t") 'helm-gtags-find-tag)
+    (define-key map (kbd "M-g p") 'helm-gtags-find-pattern)
+    (define-key map (kbd "M-g r") 'helm-gtags-find-rtag)
+    (define-key map (kbd "M-g s") 'helm-gtags-find-symbol)
+    (define-key map (kbd "M-g <") 'helm-gtags-previous-history)
+    (define-key map (kbd "M-g >") 'helm-gtags-next-history)
+    (define-key map (kbd "M-g u") 'helm-gtags-resume)
+    (define-key map (kbd "M-g f") 'helm-gtags-find-files)
+    (define-key map (kbd "M-g q") 'helm-gtags-create-tags)
+    (define-key map (kbd "M-g w") 'helm-gtags-update-tags)
+    (define-key map (kbd "M-.") 'helm-gtags-dwim)
+    (define-key map (kbd "M-,") 'helm-gtags-pop-stack)))
+
+  ;; ;; Set key bindings
+  ;; (eval-after-load "helm-gtags"
+  ;;   '(progn
+  ;;      (define-key helm-gtags-mode-map (kbd "M-t") 'helm-gtags-find-tag)
+  ;;      (define-key helm-gtags-mode-map (kbd "M-r") 'helm-gtags-find-rtag)
+  ;;      (define-key helm-gtags-mode-map (kbd "M-s") 'helm-gtags-find-symbol)
+  ;;      (define-key helm-gtags-mode-map (kbd "M-g M-p") 'helm-gtags-parse-file)
+  ;;      (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+  ;;      (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+  ;;      (define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)))
+
 
 ;; company-c-headers
 (use-package company-c-headers

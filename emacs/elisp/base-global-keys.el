@@ -2,6 +2,8 @@
 
 ;(global-set-key (kbd "[SHORTCUT]") '[FUNCTION])
 
+(define-key key-translation-map [?\C-h] [?\C-?]) ;; translate C-h to DEL
+(define-key key-translation-map [?\C-/] [?\C-_]) ;; translate C-/ to C-_
 (global-set-key [(meta h)] 'backward-kill-word)
 (global-set-key [f5] 'compile)
 
