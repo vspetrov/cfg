@@ -67,7 +67,7 @@
 
 (unless (file-exists-p (concat temp-dir "/auto-save-list"))
 		       (make-directory (concat temp-dir "/auto-save-list") :parents))
-
+(savehist-mode 1)
 (fset 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode t)
 
