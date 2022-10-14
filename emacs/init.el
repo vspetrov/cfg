@@ -15,3 +15,4 @@
 (require 'lang-python)
 
 (require 'lang-c)
+(put 'magit-clean 'disabled nil)
